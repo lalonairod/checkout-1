@@ -1,0 +1,34 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
+
+const URL_API = environment.apiMarvel;
+const PUBLIC_KEY = environment.public_key;
+const HASH = environment.hash;
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MarvelService {
+
+  constructor(private http : HttpClient) { }
+
+  getCharacters() : Observable<any>{
+
+    return this.http.get<any>(`${URL_API}/characters?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).
+    pipe(map((data:any) => 
+      data.data.results
+    ));
+
+  }
+
+  getCharacter( id : string) : Observable<any> {
+
+    return this.http.get<any>(`${URL_API}/characters/${id}?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).
+    pipe(map((data:any) => 
+      data.data.results
+    ));
+
+  }
+}
