@@ -33,15 +33,18 @@ export class MarvelService {
   }
 
   getComics():Observable<any>{
-
     return this.http.get<any>(`${URL_API}/comics?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).pipe(map((data:any)=>data.data.results));
-
   }
 
-
   getComic(id: string):Observable<any>{
-
     return this.http.get(`${URL_API}/comics/${id}?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).pipe(map((data:any)=>data.data.results));
+  }
 
+  getSeries():Observable<any>{
+    return this.http.get<any>(`${URL_API}/series?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).pipe(map((data:any)=>data.data.results));
+  }
+
+  getSerie(id: string):Observable<any>{
+    return this.http.get(`${URL_API}/series/${id}?ts=1&apikey=${PUBLIC_KEY}&hash=${HASH}`).pipe(map((data:any)=>data.data.results));
   }
 }

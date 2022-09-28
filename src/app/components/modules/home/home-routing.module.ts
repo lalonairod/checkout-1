@@ -29,7 +29,7 @@ const routes: Routes = [
         component : ComicsComponent
       },
       {
-        path : 'serie',
+        path : 'serie/:id',
         component : SerieComponent
       },
       {
