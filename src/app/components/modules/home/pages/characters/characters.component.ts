@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MarvelService } from '../../../services/marvel.service';
+import { MarvelService } from 'src/app/services/marvel.service';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-characters',
@@ -12,12 +13,17 @@ export class CharactersComponent implements OnInit {
 
   title : string = 'Characters';
 
-  constructor( private marvelService : MarvelService, private router : Router) { }
+  constructor( public authService : AuthService, private marvelService : MarvelService, private router : Router) { }
 
   characters ?: Observable<any>;
 
   ngOnInit(): void {
     this.getAllCharacters();
+  }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['auth']);
   }
 
   getAllCharacters(){

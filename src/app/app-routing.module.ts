@@ -1,23 +1,38 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CharacterComponent } from './components/pages/character/character.component';
-import { CharactersComponent } from './components/pages/characters/characters.component';
-import { ComicComponent } from './components/pages/comic/comic.component';
-import { ComicsComponent } from './components/pages/comics/comics.component';
-import { SerieComponent } from './components/pages/serie/serie.component';
-import { SeriesComponent } from './components/pages/series/series.component';
+import { LoginComponent } from './components/modules/auth/pages/login/login.component';
+import { AuthGuard } from './services/guards/auth.guard';
 
 const routes: Routes = [
+  {
+    path : 'auth',
+    children : [
+      {
+        path : 'login',
+        component : LoginComponent
+      },
+      {
+        path : '**',
+        redirectTo : 'login'
+      }
+    ]
+  },
+  {
+    path : 'authLazy',
+    loadChildren: () => import('./components/modules/auth/auth.module').then(m => m.AuthModule),
+  },
+  {
+    path : '',
+    loadChildren: () => import('./components/modules/home/home.module').then(m => m.HomeModule),
+    canLoad : [AuthGuard],
+    canActivate : [AuthGuard]
+  },
+  {
+    path : '**',
+    redirectTo : 'auth'
+  }
 
-  { path : 'characters', component : CharactersComponent },
-  { path : 'character/:id', component : CharacterComponent },
-  { path : 'comics', component : ComicsComponent },
-  { path : 'comic/:id', component : ComicComponent },
-  { path : 'series', component : SeriesComponent },
-  { path : 'serie/:id', component : SerieComponent },
-
-  { path : '', pathMatch : 'full', redirectTo : '/characters' },
-  { path : '**', pathMatch : 'full', redirectTo : '/characters' },
+  
 ];
 
 @NgModule({
